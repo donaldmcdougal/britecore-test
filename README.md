@@ -5,5 +5,7 @@ The test application for BriteCore
 2.  `cd env`
 3.  `source bin/activate`
 4.  `pip install flask`
-5.  If you are still in the `env` folder, `cd ..`
-6.  `python index.py`
+5.  `pip install sqlalchemy`
+6.  If you are still in the `env` folder, `cd ..`
+7.  `python seed.py` to generate seed data for clients and product areas.
+8.  `python index.py`
