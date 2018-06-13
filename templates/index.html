@@ -2,11 +2,9 @@
 {% block body %}
 
 <div class="container-fluid">
-  <h1>Hello World!</h1>
-  <h2>Here is an interesting quote for you: </h2>
-  <p>
-    "The limits of my language are the limits of my mind. All I know is what I have words for."
-  </p>
-  <img src="http://www.naturalprogramming.com/images/smilingpython.gif">
+  <select class="form-control" data-bind="options: clients,
+                     optionsText: 'name',
+                     value: selectedClient,
+                     optionsCaption: 'Choose...'"></select>
 </div>
 {% endblock %}
