@@ -38,8 +38,8 @@ class FeatureRequest(Base):
 
     def to_json(self):
         return dict(id=self.id, title=self.title, description=self.description, \
-            client=self.client, client_priority=self.client_priority, \
-            target_date=self.target_date, product_area=self.product_area)
+            client_id=self.client_id, client_priority=self.client_priority, \
+            target_date=self.target_date, product_area_id=self.product_area_id)
 
 _engine = create_engine('sqlite:///britecore.db')
 Base.metadata.create_all(_engine)

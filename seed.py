@@ -1,4 +1,6 @@
-from database import session, Client, ProductArea
+from database import DBSession, Client, ProductArea
+
+session = DBSession()
 
 clientA = Client(name='Client A')
 clientB = Client(name='Client B')
