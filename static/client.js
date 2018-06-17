@@ -12,11 +12,14 @@ class ClientModule {
 
   getAll(cb) {
     $.get('/client', (data) => {
+      /*
       const clients = [];
       for (const c in data) {
         clients.push(new Client(c.id, c.name));
       }
       cb(clients);
+      */
+      cb(data);
     });
   }
 }

@@ -2,9 +2,17 @@
 {% block body %}
 
 <div class="container-fluid">
-  <select class="form-control" data-bind="options: clients,
-                     optionsText: 'name',
-                     value: selectedClient,
-                     optionsCaption: 'Choose...'"></select>
+  <div class="form-group">
+    <select id="clients" class="form-control" data-bind="options: clients,
+                       optionsText: 'name',
+                       optionsValue: 'id',
+                       optionsCaption: 'Choose Client...'"></select>
+  </div>
+  <div class="form-group">
+    <select id="productAreas" class="form-control" data-bind="options: productAreas,
+                       optionsText: 'name',
+                       optionsValue: 'id',
+                       optionsCaption: 'Choose Product Area...'"></select>
+  </div>
 </div>
 {% endblock %}
