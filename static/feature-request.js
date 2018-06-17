@@ -1,5 +1,6 @@
 'use strict';
 
+/*
 class FeatureRequest {
   constructor(id, title, description, client, target_date, product_area) {
     this.id = id;
@@ -10,6 +11,7 @@ class FeatureRequest {
     this.product_area = product_area;
   }
 }
+*/
 
 class FeatureRequestModule {
 
@@ -17,11 +19,14 @@ class FeatureRequestModule {
 
   getAll(cb) {
     $.get('/feature_request', (data) => {
+      /*
       const frs = [];
       for (const c in data) {
         frs.push(new FeatureRequest(c.id, c.title, c.description, c.client, c.target_date, c.product_area));
       }
-      cb(clients);
+      cb(frs);
+      */
+      cb(data);
     });
   }
 
@@ -37,8 +42,9 @@ class FeatureRequestModule {
 
   getOne(id, cb) {
     $.get('/feature_request/' + id, (data) => {
-        const fr = new FeatureRequest(data.id, data.title, data.description, data.client, data.target_date, data.product_area);
-        cb(fr);
+        // const fr = new FeatureRequest(data.id, data.title, data.description, data.client, data.target_date, data.product_area);
+        // cb(fr);
+        cb(data);
     });
   }
 
@@ -66,7 +72,7 @@ class FeatureRequestModule {
         cb(null, data);
       }
     }).fail(() => {
-      const msg = 'Failed to update feature request.';
+      const msg = 'Failed to delete feature request.';
       console.log(msg);
       cb(msg, null);
     });

@@ -1,26 +1,28 @@
 class IndexViewModel {
-  constructor(clients, productAreas) {
+  constructor() {
     var self = this;
     self.selectedClient = ko.observable();
     self.selectedProductArea = ko.observable();
+    self.selectedFeatureRequest = ko.observable();
     self.clients = ko.observableArray();
-    for (let i = 0, j = clients.length; i < j; i++) {
-        self.clients.push(clients[i]);
-    }
     self.productAreas = ko.observableArray();
-    for (let i = 0, j = productAreas.length; i < j; i++) {
-      self.productAreas.push(productAreas[i]);
-    }
+    self.featureRequests = ko.observableArray();
   }
 }
 
 $(document).ready(() => {
   const clientModule = new ClientModule();
   const productAreaModule = new ProductAreaModule();
+  const vm = new IndexViewModel();
   clientModule.getAll((clientsData) => {
-    productAreaModule.getAll((productAreaData) => {
-      const vm = new IndexViewModel(clientsData, productAreaData);
-      ko.applyBindings(vm);
-    });
+    for (let i = 0, j = clientsData.length; i < j; i++) {
+      vm.clients.push(clientsData[i]);
+    }
   });
+  productAreaModule.getAll((productAreaData) => {
+    for (let i = 0, j = productAreaData.length; i < j; i++) {
+      vm.productAreas.push(productAreaData[i]);
+    }
+  });
+  ko.applyBindings(vm);
 });

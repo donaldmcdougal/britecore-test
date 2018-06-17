@@ -1,10 +1,12 @@
 'use strict';
 
+/*
 class ProductArea extends IdName {
   constructor(id, name) {
     super(id, name);
   }
 }
+*/
 
 class ProductAreaModule {
 

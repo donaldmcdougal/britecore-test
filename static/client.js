@@ -1,10 +1,12 @@
 'use strict';
 
+/*
 class Client extends IdName {
   constructor(id, name) {
     super(id, name);
   }
 }
+*/
 
 class ClientModule {
 
