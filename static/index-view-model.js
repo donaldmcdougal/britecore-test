@@ -9,6 +9,9 @@ class IndexViewModel {
     self.productAreas = ko.observableArray();
     self.featureRequests = ko.observableArray();
 
+    self.clientMap = {};
+    self.productAreaMap = {};
+
     var frm = new FeatureRequestModule();
 
     self.deleteFeatureRequest = (data, event) => {
@@ -45,6 +48,7 @@ class IndexViewModel {
         if (err) {
           alert(err);
         } else if (response) {
+          response.target_date = new Date(Date.parse(response.target_date)).toISOString().substr(0, 10);
           self.featureRequests.push(response);
           self.newFeatureRequest({
             title: '',
@@ -59,6 +63,14 @@ class IndexViewModel {
           alert('Unexpected server error when creating feature request.');
         }
       });
+    };
+
+    self.getClientNameById = (id) => {
+      return self.clientMap[id].name;
+    };
+
+    self.getProductAreaNameById = (id) => {
+      return self.productAreaMap[id].name;
     };
   }
 }

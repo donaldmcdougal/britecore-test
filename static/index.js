@@ -8,11 +8,13 @@ $(document).ready(() => {
   clientModule.getAll((clientsData) => {
     for (let i = 0, j = clientsData.length; i < j; i++) {
       vm.clients.push(clientsData[i]);
+      vm.clientMap[clientsData[i].id] = clientsData[i];
     }
   });
   productAreaModule.getAll((productAreaData) => {
     for (let i = 0, j = productAreaData.length; i < j; i++) {
       vm.productAreas.push(productAreaData[i]);
+      vm.productAreaMap[productAreaData[i].id] = productAreaData[i];
     }
   });
   featureRequestModule.getAll((featureRequestData) => {
