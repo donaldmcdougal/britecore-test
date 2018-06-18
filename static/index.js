@@ -17,6 +17,11 @@ $(document).ready(() => {
   });
   featureRequestModule.getAll((featureRequestData) => {
     for (let i = 0, j = featureRequestData.length; i < j; i++) {
+      let d = Date.parse(featureRequestData[i].target_date);
+      d = new Date(d);
+      d = d.toISOString();
+      d = d.substr(0, 10);
+      featureRequestData[i].target_date = d;
       vm.featureRequests.push(featureRequestData[i]);
     }
   });

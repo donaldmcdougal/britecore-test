@@ -8,8 +8,9 @@ class IndexViewModel {
     self.productAreas = ko.observableArray();
     self.featureRequests = ko.observableArray();
 
+    var frm = new FeatureRequestModule();
+
     self.deleteFeatureRequest = (data, event) => {
-      var frm = new FeatureRequestModule();
       frm.remove(data.id, (err, rsp) => {
         if (err) {
           alert(err);
@@ -19,6 +20,25 @@ class IndexViewModel {
           } else {
             alert('Unexpected server output when deleting feature request.');
           }
+        }
+      });
+    };
+
+    self.updateFeatureRequest = (data, event) => {
+      console.log(data);
+      frm.update(data, (err, response) => {
+        if (err) {
+          alert(err);
+        } else if (response) {
+          for (let fr in self.featureRequests) {
+            if (fr.id === data.id) {
+              self.featureRequests.replace(fr, data);
+              break;
+            }
+          }
+          alert('Feature Request Updated.');
+        } else {
+          alert('Unexpected server error when updating feature request.');
         }
       });
     };
