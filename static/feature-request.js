@@ -11,16 +11,6 @@ class FeatureRequestModule {
   }
 
   create(fr, cb) {
-    /*
-    $.post('/feature_request', fr, (data) => {
-      cb(null, data);
-    }).fail(() => {
-      const msg = 'Failed to create feature request.';
-      console.log(msg);
-      cb(msg, null);
-    });
-    */
-
     $.ajax({
       type: 'POST',
       url: '/feature_request',

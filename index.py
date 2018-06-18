@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 import os.path
 import dateutil.parser
+from sqlalchemy import and_
 import sqlite3
 from database import Client, ProductArea, FeatureRequest, DBSession
 from invalid_usage import InvalidUsage
@@ -61,6 +62,7 @@ def feature_request(id = None):
             session.add(fr)
             session.flush()
             session.commit()
+            _reassignClientPriorities(session=session, fr=fr)
             return jsonify(fr.to_json())
         else:
             raise InvalidUsage('Method not allowed', status_code=405, payload='Method not allowed')
@@ -83,6 +85,7 @@ def feature_request(id = None):
                 fr.product_area_id = product_area_id
                 session.flush()
                 session.commit()
+                _reassignClientPriorities(session=session, fr=fr)
                 return jsonify(fr.to_json())
             except:
                 raise InvalidUsage('404 Not found', status_code=404, payload='404 Not found')
@@ -102,6 +105,15 @@ def feature_request(id = None):
     else:
         raise InvalidUsage('Method not allowed', status_code=405, payload='Method not allowed')
 
+def _reassignClientPriorities(session, fr):
+    # get all the feature requests that have priorities greater than the given one and also aren't the given one.
+    fr_list = session.query(FeatureRequest).filter(and_(FeatureRequest.client_priority >= fr.client_priority, FeatureRequest.id != fr.id)).order_by(FeatureRequest.client_priority).all()
+    i = fr.client_priority + 1
+    for row in fr_list:
+        row.client_priority = i
+        i = i + 1
+    session.flush()
+    session.commit()
 
 if __name__ == "__main__":
     app.run()
