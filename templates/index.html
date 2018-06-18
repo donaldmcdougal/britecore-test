@@ -3,7 +3,10 @@
 
 <div class="container-fluid">
   <h1>Feature Requests</h1>
-  <button type="button" class="btn btn-primary">Create New Feature Request</button>
+  <button type="button" class="btn btn-primary"
+    data-bind="click: function(){newFeatureRequest({title: '', description: '', client_id: 0, client_priority: 1, target_date: new Date().toISOString().substr(0, 10), product_area_id: 0});}">
+    Create New Feature Request
+  </button>
   <p></p>
   <div data-bind="foreach: featureRequests">
     <div>
@@ -16,7 +19,7 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true" data-bind="modal: selectedFeatureRequest">
   <div class="modal-dialog modal-lg" role="document" data-bind="with: selectedFeatureRequest">
     <div class="modal-content">
@@ -65,6 +68,60 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" data-bind="click: $parent.updateFeatureRequest">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true" data-bind="modal: newFeatureRequest">
+  <div class="modal-dialog modal-lg" role="document" data-bind="with: newFeatureRequest">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel">Create Feature Request</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Title" data-bind="value: title">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" data-bind="value: description" rows="5"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="client">Client</label>
+            <select id="client" class="form-control" data-bind="options: $parent.clients,
+                               optionsText: 'name',
+                               optionsValue: 'id',
+                               value: $data.client_id,
+                               optionsCaption: 'Choose Client...'"></select>
+          </div>
+          <div class="form-group">
+            <label for="clientPriority">Client Priority</label>
+            <input type="number" min="1" class="form-control" id="clientPriority" placeholder="Client Priority" data-bind="value: client_priority">
+          </div>
+          <div class="form-group">
+            <label for="targetDate">Target Date</label>
+            <input type="date" class="form-control" id="targetDate" placeholder="Target Date" data-bind="value: target_date">
+          </div>
+          <div class="form-group">
+            <label for="productArea">Product Area</label>
+            <select id="productAreas" class="form-control" data-bind="options: $parent.productAreas,
+                               optionsText: 'name',
+                               optionsValue: 'id',
+                               value: $data.product_area_id,
+                               optionsCaption: 'Choose Product Area...'"></select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bind="click: $parent.createFeatureRequest">Save</button>
       </div>
     </div>
   </div>

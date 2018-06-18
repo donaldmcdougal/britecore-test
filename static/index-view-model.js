@@ -4,6 +4,7 @@ class IndexViewModel {
     self.selectedClient = ko.observable();
     self.selectedProductArea = ko.observable();
     self.selectedFeatureRequest = ko.observable();
+    self.newFeatureRequest = ko.observable();
     self.clients = ko.observableArray();
     self.productAreas = ko.observableArray();
     self.featureRequests = ko.observableArray();
@@ -35,6 +36,27 @@ class IndexViewModel {
           $('.modal').modal('hide');
         } else {
           alert('Unexpected server error when updating feature request.');
+        }
+      });
+    };
+
+    self.createFeatureRequest = (data, event) => {
+      frm.create(data, (err, response) => {
+        if (err) {
+          alert(err);
+        } else if (response) {
+          self.featureRequests.push(response);
+          self.newFeatureRequest({
+            title: '',
+            description: '',
+            client_id: 0,
+            client_priority: 1,
+            target_date: new Date().toISOString().substr(0, 10),
+            product_area_id: 0
+          });
+          $('.modal').modal('hide');
+        } else {
+          alert('Unexpected server error when creating feature request.');
         }
       });
     };
