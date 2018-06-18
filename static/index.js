@@ -1,19 +1,10 @@
-class IndexViewModel {
-  constructor() {
-    var self = this;
-    self.selectedClient = ko.observable();
-    self.selectedProductArea = ko.observable();
-    self.selectedFeatureRequest = ko.observable();
-    self.clients = ko.observableArray();
-    self.productAreas = ko.observableArray();
-    self.featureRequests = ko.observableArray();
-  }
-}
-
 $(document).ready(() => {
+  const vm = new IndexViewModel();
+
+  // This stuff is for getting all the initial data.
   const clientModule = new ClientModule();
   const productAreaModule = new ProductAreaModule();
-  const vm = new IndexViewModel();
+  const featureRequestModule = new FeatureRequestModule();
   clientModule.getAll((clientsData) => {
     for (let i = 0, j = clientsData.length; i < j; i++) {
       vm.clients.push(clientsData[i]);
@@ -24,5 +15,34 @@ $(document).ready(() => {
       vm.productAreas.push(productAreaData[i]);
     }
   });
+  featureRequestModule.getAll((featureRequestData) => {
+    for (let i = 0, j = featureRequestData.length; i < j; i++) {
+      vm.featureRequests.push(featureRequestData[i]);
+    }
+  });
+
+  ko.bindingHandlers.modal = {
+    init: function(element, valueAccessor) {
+      $(element).modal({
+        show: false
+      });
+
+      const value = valueAccessor();
+      if (ko.isObservable(value)) {
+        $(element).on('hidden.bs.modal', () => {
+          value(false);
+        });
+      }
+    },
+    update: function(element, valueAccessor) {
+        var value = valueAccessor();
+        if (ko.utils.unwrapObservable(value)) {
+          $(element).modal('show');
+        } else {
+          $(element).modal('hide');
+        }
+    }
+  };
+
   ko.applyBindings(vm);
 });

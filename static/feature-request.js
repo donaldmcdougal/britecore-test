@@ -67,7 +67,6 @@ class FeatureRequestModule {
     $.ajax({
       type: 'DELETE',
       url: '/feature_request/' + id,
-      data: fr,
       success: (data) => {
         cb(null, data);
       }

@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 import os.path
+import dateutil.parser
 import sqlite3
 from database import Client, ProductArea, FeatureRequest, DBSession
 from invalid_usage import InvalidUsage
@@ -34,14 +35,15 @@ def product_area():
 @app.route('/feature_request', methods=['GET', 'POST'])
 @app.route('/feature_request/<int:id>', methods=['GET', 'PUT', 'DELETE'])
 def feature_request(id = None):
+    session = DBSession()
     if request.method == 'GET':
         if id == None:
-            list = DBSession().query(FeatureRequest).all()
+            list = session.query(FeatureRequest).all()
             return jsonify([e.to_json() for e in list])
         else:
             try:
-                fr = DBSession().query(FeatureRequest).filter(FeatureRequest.id == id).one()
-                return jsonify(fr)
+                fr = session.query(FeatureRequest).get(id)
+                return jsonify(fr.to_json())
             except:
                 raise InvalidUsage('404 Not found', status_code=404, payload='404 Not found')
     elif request.method == 'POST':
@@ -51,31 +53,27 @@ def feature_request(id = None):
             description = frJson['description']
             client_id = frJson['client_id']
             client_priority = frJson['client_priority']
-            target_date = frJson['target_date']
+            target_date = dateutil.parser.parse(frJson['target_date'])
             product_area_id = frJson['product_area_id']
-            fr = FeatureRequest()
-            fr.title = title
-            fr.description = description
-            fr.client_id = client_id
-            fr.client_priority = client_priority
-            fr.target_date = target_date
-            fr.product_area_id = product_area_id
-            DBSession().add(fr)
-            DBSession().flush()
-            DBSession().commit()
-            return jsonify(fr)
+            fr = FeatureRequest(title=title, description=description,
+                client_id=client_id, client_priority=client_priority,
+                target_date=target_date, product_area_id=product_area_id)
+            session.add(fr)
+            session.flush()
+            session.commit()
+            return jsonify(fr.to_json())
         else:
             raise InvalidUsage('Method not allowed', status_code=405, payload='Method not allowed')
     elif request.method == 'PUT':
         if id != None:
             try:
-                fr = DBSession().query(FeatureRequest).filter(FeatureRequest.id == id).one()
+                fr = session.query(FeatureRequest).get(id)
                 frJson = request.get_json(force=False)
                 title = frJson['title']
                 description = frJson['description']
                 client_id = frJson['client_id']
                 client_priority = frJson['client_priority']
-                target_date = frJson['target_date']
+                target_date = dateutil.parser.parse(frJson['target_date'])
                 product_area_id = frJson['product_area_id']
                 fr.title = title
                 fr.description = description
@@ -83,9 +81,9 @@ def feature_request(id = None):
                 fr.client_priority = client_priority
                 fr.target_date = target_date
                 fr.product_area_id = product_area_id
-                DBSession().flush()
-                DBSession().commit()
-                return jsonify(fr)
+                session.flush()
+                session.commit()
+                return jsonify(fr.to_json())
             except:
                 raise InvalidUsage('404 Not found', status_code=404, payload='404 Not found')
         else:
@@ -93,8 +91,9 @@ def feature_request(id = None):
     elif request.method == 'DELETE':
         if id != None:
             try:
-                fr = DBSession().query(FeatureRequest).filter(FeatureRequest.id == id).one()
-                DBSession().delete(fr)
+                fr = session.query(FeatureRequest).get(id)
+                session.delete(fr)
+                session.commit()
                 return jsonify(True)
             except:
                 raise InvalidUsage('404 Not found', status_code=404, payload='404 Not found')
