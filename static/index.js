@@ -26,7 +26,6 @@ $(document).ready(() => {
       $(element).modal({
         show: false
       });
-
       const value = valueAccessor();
       if (ko.isObservable(value)) {
         $(element).on('hidden.bs.modal', () => {
@@ -35,7 +34,7 @@ $(document).ready(() => {
       }
     },
     update: function(element, valueAccessor) {
-        var value = valueAccessor();
+        const value = valueAccessor();
         if (ko.utils.unwrapObservable(value)) {
           $(element).modal('show');
         } else {
