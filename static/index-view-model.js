@@ -25,18 +25,14 @@ class IndexViewModel {
     };
 
     self.updateFeatureRequest = (data, event) => {
-      console.log(data);
       frm.update(data, (err, response) => {
         if (err) {
           alert(err);
         } else if (response) {
-          for (let fr in self.featureRequests) {
-            if (fr.id === data.id) {
-              self.featureRequests.replace(fr, data);
-              break;
-            }
-          }
-          alert('Feature Request Updated.');
+          var data = self.featureRequests().slice(0);
+          self.featureRequests([]);
+          self.featureRequests(data);
+          $('.modal').modal('hide');
         } else {
           alert('Unexpected server error when updating feature request.');
         }
