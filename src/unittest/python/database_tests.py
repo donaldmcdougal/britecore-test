@@ -1,6 +1,4 @@
-from mockito import mock, verify, unstub, when
 from datetime import date
-import json
 import unittest
 
 from database import Client, ProductArea, FeatureRequest, DBSession

@@ -18,11 +18,6 @@ def handle_invalid_usage(error):
 def index():
     return render_template('index.html')
 
-@app.route("/hello/<string:name>/")
-def hello(name):
-    return render_template(
-        'test.html', name=name)
-
 @app.route('/client')
 def client():
     list = DBSession().query(Client).all()
@@ -115,5 +110,5 @@ def _reassignClientPriorities(session, fr):
     session.flush()
     session.commit()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()

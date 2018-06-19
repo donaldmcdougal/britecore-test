@@ -14,3 +14,4 @@ def initialize(project):
     project.build_depends_on('sqlalchemy')
     project.build_depends_on('python-dateutil')
     project.build_depends_on('mockito')
+    project.build_depends_on('requests')
