@@ -10,7 +10,8 @@ AJAX calls are nested rather than using promises.
 3.  `source env/bin/activate`
 4.  `pip install pybuilder`
 5.  `pyb install_dependencies`
-6.  `pyb`
-7.  `cd src/main/python`
-8.  `python minify.py`
-9.  `python index.py` to start the application.  Navigate to [localhost:5000](http://localhost:5000/).
+6.  In a separate terminal, run `python src/main/python/index.py`
+7.  `python src/main/python/minify.py`
+8.  `pyb`
+9.  Kill the process in the separate terminal where you ran `python src/main/python/index.py`
+10. `python src/main/python/index.py` to start the application.  Navigate to [localhost:5000](http://localhost:5000/).
