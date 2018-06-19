@@ -7,7 +7,7 @@ def minifyJSProc(srcText):
     return dukpy.babel_compile(srcText, comments=False, minified=True)
 
 def doProcessFiles(sourcePaths, header, destPath, minPath):
-    print "Combining to %s and %s" % (destPath,minPath)
+    print "Combining to %s and %s" % (destPath, minPath)
     f = open(destPath, 'w')
     mf = None
     try:
