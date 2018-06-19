@@ -2,7 +2,8 @@ from pybuilder.core import use_plugin, init
 
 use_plugin('python.core')
 use_plugin('python.unittest')
-use_plugin('python.coverage')
+# we are not using the coverage plugin because it can't cover testing of the index page on the dev server
+# use_plugin('python.coverage')
 use_plugin('python.install_dependencies')
 use_plugin('python.distutils')
 
