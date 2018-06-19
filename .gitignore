@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 britecore.db
+index.min.js
 
 # C extensions
 *.so

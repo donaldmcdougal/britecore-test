@@ -16,3 +16,5 @@ def initialize(project):
     project.build_depends_on('python-dateutil')
     project.build_depends_on('mockito')
     project.build_depends_on('requests')
+    project.build_depends_on('dukpy')
+    project.build_depends_on('rcssmin')
